@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+
+  <node name="pepper_obs_avoid" pkg="pepper_obs_avoid" type="pepper_obs_avoid_node" output="screen">
+  </node>
+
+
+</launch>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <name>pepper_obs_avoid</name>
+  <version>1.0.0</version>
+  <description>Enables Pepper hand pose computation</description>
+  <maintainer email="fabien.spindler@inria.fr">Fabien Spindler</maintainer>
+  <author email="Giovanni.Claudio@inria.fr">Giovanni Claudio</author>
+  <author email="Fabien.Spindler@inria.fr">Fabien Spindler</author>
+  <license>BSD</license>
+  <url type="repository">git://github.com/lagadic/pepper_obs_avoid.git</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>visp_bridge</build_depend>
+  <build_depend>naoqi_libqi</build_depend>
+  <build_depend>naoqi_libqicore</build_depend>
+
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>visp_bridge</run_depend>
+  <run_depend>naoqi_libqi</run_depend>
+  <run_depend>naoqi_libqicore</run_depend>
+
+</package>
