@@ -20,7 +20,7 @@
 vpDisplayX d;
 pepper_obs_avoid::pepper_obs_avoid(ros::NodeHandle &nh):
   lock_(), m_cam(), m_camInfoIsInitialized(false), m_laser_data(0), m_laserInit(false), m_angleMin(0.0), m_angleMax(0.0), m_L(1,6),
-  m_min_dist(0.7), m_A(), m_v_des(2), robot()
+  m_min_dist(0.7), m_A(), m_v_des(3), robot()
 {
   // read in config options
   m_n = nh;
@@ -37,9 +37,10 @@ pepper_obs_avoid::pepper_obs_avoid(ros::NodeHandle &nh):
   d.init(I);
   vpDisplay::setTitle(I, "ViSP viewer");
 
-  m_eJe.resize(6, 2);
+  m_eJe.resize(6, 3);
   m_eJe = 0;
   m_eJe[0][0] = 1;  // vx
+  m_eJe[1][1] = 1;  // vx
   m_eJe[5][1] = 1;  // wz
 
   //Interaction matrix
@@ -50,6 +51,7 @@ pepper_obs_avoid::pepper_obs_avoid(ros::NodeHandle &nh):
   //Desired velocity
   m_v_des[0] = 0.1;
   m_v_des[1] = 0.0001;
+  m_v_des[2] = 0.0001;
 
 
   // Create a session to connect with the Robot
@@ -104,17 +106,23 @@ void pepper_obs_avoid::obs_avoidance_control()
   int n, m, p;
   char ch;
 
-  n = 2;
+  n = 3;
 
   G.resize(n, n);
   G[0][0] = std::abs(m_v_des[0]);
-  G[0][1] = 0.;
   G[1][1] = std::abs(m_v_des[1]);
+  G[2][2] = std::abs(m_v_des[2]);
+  G[0][1] = 0.;
+  G[0][2] = 0.;
   G[1][0] = 0.;
+  G[1][2] = 0.;
+  G[2][0] = 0.;
+  G[2][1] = 0.;
 
   g0.resize(n);
   g0[0] = - G[0][0] * m_v_des[0] ;
   g0[1] = - G[1][1] * m_v_des[1] ;
+  g0[2] = - G[2][2] * m_v_des[2] ;
 
   double lambda  = 1;
   CI.resize(n, m_A.size());
@@ -123,6 +131,7 @@ void pepper_obs_avoid::obs_avoidance_control()
   {
     CI[0][i] = m_A[i][0][0];
     CI[1][i] = m_A[i][0][1];
+    CI[2][i] = m_A[i][0][2];
     ci0[i] = lambda * (m_laser_data[i] - m_min_dist);
   }
 
@@ -160,7 +169,7 @@ void pepper_obs_avoid::obs_avoidance_control()
   std::cout << "f: " << solve_quadprog(G, g0, CE, ce0, CI, ci0, x) << std::endl;
   std::cout << "x: " << x << std::endl;
 
-  robot->setBaseVelocity(x[0],0.0,x[1]);
+  robot->setBaseVelocity(x[0],x[1],x[2]);
 
 }
 
