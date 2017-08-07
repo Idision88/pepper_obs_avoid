@@ -2,6 +2,7 @@
 
 ## Prerequisites
 * ViSP
+* [QuadProgpp](https://github.com/liuq/QuadProgpp)
 
 ## Installation
 * Clone the repo in your `catkin/src`   
