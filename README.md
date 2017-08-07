@@ -5,6 +5,8 @@
 * [QuadProgpp](https://github.com/liuq/QuadProgpp)
 
 ## Installation
+* Clone and build QuadProgpp in $QUADPROG_HOME
+* Set envirnment variable $QUADPROG_HOME, pointing to the install folder of QuadProgg  
 * Clone the repo in your `catkin/src`   
  `$ cd ~/catking_ws/src`   
  `$ git clone https://github.com/lagadic/pepper_obs_avoid.git`   
