@@ -17,6 +17,7 @@
 #include <visp_bridge/camera.h>
 
 #include <visp_naoqi/vpNaoqiRobot.h>
+#include <visp_naoqi/common/vpPepperFollowPeople.h>
 
 #include <qi/log.hpp>
 #include <qi/applicationsession.hpp>
@@ -34,7 +35,7 @@ protected:
   
   void getCameraInfoCb(const sensor_msgs::CameraInfoConstPtr &msg);
   void getLaserCb(const sensor_msgs::LaserScanConstPtr &msg);
-  void obs_avoidance_control();
+  std::vector<double> obs_avoidance_control(double vx, double vy, double wz);
 
   boost::mutex lock_;
   std::string m_robotIp;
@@ -42,10 +43,15 @@ protected:
   //Robot
   vpNaoqiRobot * robot;
   qi::SessionPtr m_session;
+  std::vector<std::string> m_jointNames_head;
+
+  // Servo Follow people
+  vpPepperFollowPeople * m_follow_people;
 
   // Control
-  std::vector<float> m_v_des;
+  //std::vector<float> m_v_des;
   vpMatrix m_eJe;
+  bool m_servo_enabled;
   
   //Visp
   vpCameraParameters m_cam;
